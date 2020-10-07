@@ -12,8 +12,8 @@ list_t *list_alloc() {
   
   list_t *list = (list_t*) malloc(sizeof(list_t*)); //allocate space for a list to hold a node(s)
   node_t *node = (node_t*) malloc(sizeof(node_t*)); //allocate space for a note to hold a value
-  node->value = -1;
-  list->head = node;
+  // node->value = NULL;
+  // list->head = node;
   
   return list; 
 }
@@ -26,8 +26,10 @@ void list_free(list_t *l) {
      printf("%s\n\n", "The list does not exist.");
 
   } else {
-    
-     int i;
+         
+      printf("%s\n\n", "Freeing the listmemory...");
+
+      int i;
       for(i = 0; i <= list_length(l); i++) {
         list_remove_from_back(l);
       }
@@ -79,7 +81,7 @@ void list_add_to_back(list_t *l, elem value) {
   node->value = value;
   
 
-
+  printf("adding %i to back of list.\n\n", value);
 
   if(l->head->next == NULL) {
     
@@ -105,6 +107,8 @@ void list_add_to_front(list_t *l, elem value) {
   
   node_t *node = (node_t*) malloc(sizeof(node_t*)); //allocate space for a note to hold a value
 
+  printf("adding %i to front of list.\n\n", value);
+
   node->value = value; //stores desired value in the new node
   node->next = l->head; //points new node's next pointer to the head
   l->head = node; //sets new node as the head of the list
@@ -121,15 +125,16 @@ void list_add_at_index(list_t *l, elem value, int index) {
   temp->value = 0;
   
 
+  printf("adding %i to index %i.\n\n", value, index);
 
 
   if(index > list_length(l)) {
     
-    printf("%s\n", "The chosen index for addition is larger than the size of the list");
+    printf("%s\n", "The chosen index for addition is larger than the size of the list\n");
     
   } else if (index < 0) {
 		
-      printf("%s\n", "Please choose an index greater than or equal to 0.");
+      printf("%s\n", "Please choose an index greater than or equal to 0.\n");
 		
 	} else if (index == list_length(l)) {
 		
@@ -183,8 +188,7 @@ elem list_remove_from_back(list_t *l) {
 		  current->next = NULL;
 
   }
-  printf("%s", "Removed:");
-  printf("%i\n\n", removed->value);
+  printf("Removed: %i from back\n\n", removed->value);
 
   return removed->value; 
   
@@ -206,8 +210,8 @@ elem list_remove_from_front(list_t *l) {
       l->head = l->head->next;
 
   }
-  printf("%s", "Removed: ");
-  printf("%i\n\n", removed->value);
+    printf("Removed: %i from front\n\n", removed->value);
+
   return removed->value; 
 
 }
@@ -249,11 +253,11 @@ elem list_remove_at_index(list_t *l, int index) {
       }
     
       temp->next = current->next;
+	    printf("Removed: %i from index %i\n\n", current->value, index);
 
   }
   
-	printf("%s", "Removed:");
-  printf("%i\n\n", current->value);
+
 	return current->value; 
 
 }
@@ -266,8 +270,7 @@ bool list_is_in(list_t *l, elem value) {
   while(current->next != NULL) {
     if(current->value == value) {
       
-      printf("%i", value);
-      printf("%s\n", " is in the list.");
+      printf("%i is in the list\n\n", value);
       return true;
     } 
     current = current->next;
@@ -275,12 +278,10 @@ bool list_is_in(list_t *l, elem value) {
   
   if(current->value == value) {
       
-      printf("%i", value);
-      printf("%s\n", " is in the list.");
+      printf("%i is in the list\n\n", value);
       return true;
     } 
-  printf("%i", value);      
-  printf("%s\n\n", " is not in the list.");
+  printf("%i is not in the list.\n\n", value);      
 
 
   return false;
@@ -336,8 +337,6 @@ int list_get_index_of(list_t *l, elem value) {
   while(current->next != NULL) {
 
     if(current->value == value) {
-            printf("%s\n", "good");
-
 
       printf("%i", value);
       printf("%s", " is in the list at index ");
